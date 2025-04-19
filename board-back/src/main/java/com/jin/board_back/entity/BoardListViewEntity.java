@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity(name = "board_list_view")
 @Table(name = "board_list_view")
-
 public class BoardListViewEntity {
     
     @Id
@@ -24,7 +23,7 @@ public class BoardListViewEntity {
     private int favoriteCount;
     private int commentCount;
     private String writeDatetime;
-    private String writeEmail;
-    private String writeNickname;
-    private String writeProfileImage;
+    private String writerEmail;
+    private String writerNickname;
+    private String writerProfileImage;
 }

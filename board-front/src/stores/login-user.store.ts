@@ -1,17 +1,22 @@
-import { User } from "types/interface";
+import { User } from 'types/interface';
 import { create } from 'zustand';
 
 interface LoginUserStore {
-    loginUser: User | null;
-    setLoginUser: (loginUser: User) => void;
-    resetLoginUser: () => void;
-};
+  loginUser: User | null;
+  accessToken: string;
+  setLoginUser: (loginUser: User) => void;
+  resetLoginUser: () => void;
+  setAccessToken: (accessToken: string) => void;
+  clearAccessToken: () => void;
+}
 
-const useLoginUserStore = create<LoginUserStore>(set => ({
-    loginUser: null,
-    setLoginUser: loginUser => set(state => ({...state, loginUser})),
-    resetLoginUser: () => set(state => ({ ...state, loginUser: null}))
-
+const useLoginUserStore = create<LoginUserStore>((set) => ({
+  loginUser: null,
+  accessToken: '',
+  setLoginUser: (loginUser) => set({ loginUser }),
+  resetLoginUser: () => set({ loginUser: null }),
+  setAccessToken: (accessToken) => set({ accessToken }),
+  clearAccessToken: () => set({ accessToken: '' }),
 }));
 
 export default useLoginUserStore;

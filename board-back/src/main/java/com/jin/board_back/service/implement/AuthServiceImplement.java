@@ -1,9 +1,9 @@
 package com.jin.board_back.service.implement;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +30,6 @@ public class AuthServiceImplement implements AuthService{
 
     @Override
     public ResponseEntity<? super SignUpResponseDto> signUp(SignUpRequestDto dto) {
-
-        
-
         try {
             String email = dto.getEmail();
             boolean existsByEmail = userRepository.existsByEmail(email);
@@ -67,8 +64,10 @@ public class AuthServiceImplement implements AuthService{
 
         try {
             String email = dto.getEmail();
-            UserEntity userEntity = userRepository.findByEmail(email);
-            if (userEntity == null) return SignInResponseDto.signInFail();
+            Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(email);
+            if (optionalUserEntity.isEmpty()) return SignInResponseDto.signInFail();
+
+            UserEntity userEntity = optionalUserEntity.get();
 
             String password = dto.getPassword();
             String encodePassword = userEntity.getPassword();

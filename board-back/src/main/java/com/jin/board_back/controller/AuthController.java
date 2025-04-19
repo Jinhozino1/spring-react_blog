@@ -8,9 +8,8 @@ import com.jin.board_back.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+
 import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.*;
 
 import com.jin.board_back.dto.request.auth.SignInRequestDto;
 import com.jin.board_back.dto.request.auth.SignUpRequestDto;
@@ -40,7 +39,6 @@ public class AuthController {
         ) {
             ResponseEntity<? super SignInResponseDto> response = authService.signIn(requestBody);
             return response;
-        
     }
     
 }

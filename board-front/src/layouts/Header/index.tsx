@@ -6,6 +6,10 @@ import { useCookies } from 'react-cookie';
 import { useLoginUserStore } from 'stores';
 // import BoardDetail from 'views/Board/Detail';
 import { useBoardStore } from 'stores'
+import { fileUploadRequest, postBoardRequest } from 'apis';
+import { PostBoardRequestDto } from 'apis/request/board';
+import { PostBoardResponseDto } from 'apis/response/board';
+import { ResponseDto } from 'apis/response';
 
 
 
@@ -18,7 +22,7 @@ export default function Header() {
     const { pathname } = useLocation();
 
     //  state: cookie 상태
-    const [cookie, setCookie] = useCookies();
+    const [cookies, setCookies] = useCookies();
 
     //  state: 로그인 상태
     const[isLogin, setLogin] = useState<boolean>(false);
@@ -126,6 +130,7 @@ export default function Header() {
         //  event handler: 마이페이지 버튼 클릭 이벤트 처리 함수
         const onSignOutPageButtonClickHandler = () => {
             resetLoginUser();
+            setCookies('accessToken', '', { path: MAIN_PATH(), expires: new Date() });
             navigate(MAIN_PATH());
         };
         //  event handler: 마이페이지 버튼 클릭 이벤트 처리 함수
@@ -142,6 +147,9 @@ export default function Header() {
         return <div className='white-button' onClick={onMyPageButtonClickHandler}>{'마이페이지'}</div>  ;
 
         //  render: 로그인 버튼 컴포넌트 렌더링
+        console.log('isLogin:', isLogin);
+        console.log('userEmail:', userEmail);
+        console.log('loginUser:', loginUser);
         return <div className='black-button' onClick={onSignInButtonClickHandler}>{'로그인'}</div>  ;  
         
     };
@@ -152,17 +160,46 @@ export default function Header() {
         //  state: 게시물 상태
         const { title, content, boardImageFileList, resetBoard } = useBoardStore();
 
-        //  event handler: 업로드 버튼 클릭 이벤트 처리 함수
-        const onUploadButtonClickHandler = () => {
+        //  function: post board response 처리 함수
+        const postBoardResponse = (responseBody: PostBoardResponseDto | ResponseDto | null) => {
+            if (!responseBody) return;
+            const { code } = responseBody;
+            if (code === 'DBE') alert('데이터베이스 오류입니다.');
+            if (code === 'AF' || code === 'NU') navigate(AUTH_PATH());
+            if (code === 'VF') alert('제목과 내용은 필수입니다.');
+            if (code !== 'SU') return;
 
+            resetBoard();
+            if (!loginUser) return;
+            const { email } = loginUser;
+            navigate(USER_PATH(email));
         }
 
+        //  event handler: 업로드 버튼 클릭 이벤트 처리 함수
+        const onUploadButtonClickHandler = async () => {
+            const accessToken = cookies.accessToken;
+            if (!accessToken) return;
+
+            const boardImageList: string[] = [];
+
+            for (const file of boardImageFileList) {
+                const data = new FormData();
+                data.append('file', file);
+
+                const url = await fileUploadRequest(data);
+                if (url) boardImageList.push(url);
+            }
+            const requestBody: PostBoardRequestDto = {
+                title, content, boardImageList
+            }
+            postBoardRequest(requestBody, accessToken).then(postBoardResponse);
+        }
 
         //  render: 업로드 불가 버튼 컴포넌트 렌더링
         if (title && content)
             return <div className='black-button' onClick={onUploadButtonClickHandler}>{'업로드'}</div>  ; 
         //  render: 업로드 버튼 컴포넌트 렌더링
-        return <div className='disable-button'>{'업로드'}</div>  ; 
+        return <div className='disable-button' onClick={onUploadButtonClickHandler}>{'업로드'}</div>  ; 
 }
     //  effect: path가 변경될 때 마다 실행될 함수
     useEffect(() => {
@@ -181,6 +218,10 @@ export default function Header() {
         const isUserPage = pathname.startsWith(USER_PATH(''));
         setUserPage(isUserPage);
     }, [pathname]);
+
+    useEffect(() => {
+        setLogin(loginUser !== null);
+    }, [loginUser])
 
     //  render: 헤더 레이아웃 렌더링
   return (
