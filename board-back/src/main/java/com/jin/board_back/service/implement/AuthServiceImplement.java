@@ -12,6 +12,7 @@ import com.jin.board_back.dto.request.auth.SignUpRequestDto;
 import com.jin.board_back.dto.response.ResponseDto;
 import com.jin.board_back.dto.response.auth.SignInResponseDto;
 import com.jin.board_back.dto.response.auth.SignUpResponseDto;
+import com.jin.board_back.dto.response.user.PatchNicknameResponseDto;
 import com.jin.board_back.entity.UserEntity;
 import com.jin.board_back.provider.JwtProvider;
 import com.jin.board_back.repository.UserRepository;
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImplement implements AuthService{
+public class AuthServiceImplement implements AuthService {
     
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
@@ -64,10 +65,15 @@ public class AuthServiceImplement implements AuthService{
 
         try {
             String email = dto.getEmail();
-            Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(email);
-            if (optionalUserEntity.isEmpty()) return SignInResponseDto.signInFail();
+            // Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(email);
+            // if (optionalUserEntity.isEmpty()) return SignInResponseDto.signInFail();
+            
+            // UserEntity userEntity = optionalUserEntity.get();
+            
+            UserEntity userEntity = userRepository.findByEmail(email);
+            if (userEntity == null) return PatchNicknameResponseDto.noExistUser();
 
-            UserEntity userEntity = optionalUserEntity.get();
+            
 
             String password = dto.getPassword();
             String encodePassword = userEntity.getPassword();

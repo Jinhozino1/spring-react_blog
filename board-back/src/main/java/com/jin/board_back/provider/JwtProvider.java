@@ -17,16 +17,10 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.stereotype.Component;
 
-import com.jin.board_back.entity.UserEntity;
-import com.jin.board_back.repository.UserRepository;
-
 @Component
 @RequiredArgsConstructor
 public class JwtProvider {
     private Key secretKey;
-
-
-    private final UserRepository userRepository;
 
     @Value("${secret-key}")
     private String secret;
@@ -53,26 +47,6 @@ public class JwtProvider {
         return jwt;
     }
 
-    // public String validate(String jwt) {
-    //     Claims claims = null;
-
-    //     try{
-    //         claims = Jwts.parserBuilder()
-    //             .setSigningKey(secretKey)
-    //             .build()
-    //             .parseClaimsJws(jwt)
-    //             .getBody();
-    //             System.out.println("✅ JwtProvider - Email extracted: " + claims.getSubject());
-                
-    //     } catch (Exception exception) {
-    //         System.out.println("❌ JWT validation failed: " + exception.getMessage());
-            
-    //         exception.printStackTrace();
-    //         return null;
-    //     }
-        
-    //     return claims.getSubject();
-    // }
     public String validate(String jwt) {
         Claims claims = null;
     
@@ -86,7 +60,6 @@ public class JwtProvider {
             return email;
     
         } catch (Exception exception) {
-            System.out.println("❌ JWT validation failed: " + exception.getMessage());
             exception.printStackTrace();
             return null;
         }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="user")
+@Entity(name="UserEntity")
 @Table(name="user")
 public class UserEntity {
     @Id
@@ -36,4 +36,11 @@ public class UserEntity {
         this.agreedPersonal = dto.getAgreedPersonal();
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setProfileImage (String profileImage) {
+        this.profileImage = profileImage;
+    }
 }

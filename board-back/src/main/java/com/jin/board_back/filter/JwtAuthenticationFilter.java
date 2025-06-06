@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.util.StringUtils;
 
 import com.jin.board_back.provider.JwtProvider;
+import com.jin.board_back.service.CustomUserDetailsService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,24 +30,30 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
-    private static final List<String> permitAllPaths = List.of(
-        // "/",
-    "/file/",
-    "/api/v1/auth/",
-    "/api/v1/search/"
-);
+    private static final List<String> permitAllPaths = List.of(  
+        "/file/",
+        "/api/v1/auth/",
+        "/api/v1/search/",
+        "/api/v1/user",        // GETㅂ
+        "/api/v1/user/",
+        "/api/v1/search/",
+        "/api/v1/user-board-list/"
+    );
 
-    private boolean isPermitAllPath(HttpServletRequest request) {
-        String path = request.getRequestURI();
-        String method = request.getMethod();
+    // private boolean isPermitAllPath(HttpServletRequest request) {
+    //     String path = request.getRequestURI();
+    //     String method = request.getMethod();
 
-        // 특정 경로 + GET 메서드만 허용
-        if (path.startsWith("/api/v1/board/") && method.equals("GET")) return true;
+    //     // /api/v1/user 와 정확히 같을 때만 허용
+    //     if (path.equals("/api/v1/user") && method.equals("GET")) return true;
 
-        return permitAllPaths.stream().anyMatch(path::startsWith);
-    }
+    //     // /file/ 등 prefix 허용
+    //     return permitAllPaths.stream().anyMatch(p -> 
+    //         p.endsWith("/") && path.startsWith(p)
+    //     );
+    // }
 
     @Override
     protected void doFilterInternal(
@@ -55,99 +62,59 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain) 
             throws ServletException, IOException {
 
-                
         try {
-            if (isPermitAllPath(request)) {
+            String token = parseBearerToken(request);
+            if (token == null) {
                 filterChain.doFilter(request, response);
                 return;
-            }
-
-            String token = parseBearerToken(request);
-            System.out.println("✅ Token: " + token);
-            if (token == null) {
-                setUnauthorizedResponse(response, "Token is missing");
-                System.out.println("Token is missing");
-                return; // ✅ 바로 종료
             }
 
             String email = jwtProvider.validate(token);
-            System.out.println("✅ Validated Email from Token: " + email);
             if (email == null) {
-                sendUnauthorizedResponse(response, "Invalid or expired token.");
                 filterChain.doFilter(request, response);
                 return;
             }
 
-            // AbstractAuthenticationToken authenticationToken = 
-            //     new UsernamePasswordAuthenticationToken(email, null, AuthorityUtils.NO_AUTHORITIES);
-            
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-            System.out.println("✅ Loaded UserDetails: " + userDetails.getUsername());
-            
-            AbstractAuthenticationToken authenticationToken = 
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            
+            AbstractAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            // System.out.println("authenticationToken =  " + authenticationToken);
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
             SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
             securityContext.setAuthentication(authenticationToken);
-            SecurityContextHolder.setContext(securityContext);
-
-            System.out.println("✅ Authentication set in SecurityContextHolder: " + authenticationToken);
             
+            SecurityContextHolder.setContext(securityContext);
+                
+            // SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+
         } catch (Exception exception) {
-            sendUnauthorizedResponse(response, "Authentication error.");
             exception.printStackTrace();
-            return;
+            return ;
         }
+
         filterChain.doFilter(request, response);
     }
 
     private String parseBearerToken(HttpServletRequest request) {
-    // 1. Authorization 헤더에서 시도
-    String authorization = request.getHeader("Authorization");
-    if (StringUtils.hasText(authorization) && authorization.startsWith("Bearer ")) {
-        String token = authorization.substring(7);
-        return token;
-    }
-
-    // 2. 쿠키에서 accessToken 확인
-    if (request.getCookies() != null) {
-        for (Cookie cookie : request.getCookies()) {
-            if ("accessToken".equals(cookie.getName())) {
+    // 1. 쿠키에서 accessToken 확인
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("accessToken")) {
                 String token = cookie.getValue();
                 return token;
             }
         }
     }
-
+    
     return null;
     }
 
-
-    // private String parseBearerToken(HttpServletRequest request) {
-    //     String authorization = request.getHeader("Authorization");
-
-    //     boolean hasAuthorization = StringUtils.hasText(authorization);
-    //     if (!hasAuthorization) return null;
-
-    //     boolean isBearer = authorization.startsWith("Bearer ");
-    //     if (!isBearer) return null;
-
-    //     String token = authorization.substring(7);
-    //     return token;
+    // private void sendUnauthorizedResponse(HttpServletResponse response, String message) throws IOException {
+    //     response.setContentType("application/json");
+    //     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    //     response.getWriter().write("{\"code\": \"401\", \"message\": \"" + message + "\"}");
     // }
-
-
-    private void sendUnauthorizedResponse(HttpServletResponse response, String message) throws IOException {
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        // response.getWriter().write("{\"code\": \"401\", \"message\": \"" + message + "\"}");
-    }
-
-    private void setUnauthorizedResponse(HttpServletResponse response, String message) throws IOException {
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setHeader("WWW-Authenticate", "Bearer realm=\"access to protected resources\"");
-        // response.getWriter().write("{\"code\":\"401\", \"message\": \"" + message + "\"}");
-    }
 }

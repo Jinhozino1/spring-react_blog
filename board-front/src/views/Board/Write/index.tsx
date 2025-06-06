@@ -27,7 +27,7 @@ export default function BoardWrite() {
   const [imageUrls, setImageUrls]  = useState<string[]>([]);
 
   //  function: 네비게이트 함수
-  const navigator = useNavigate();
+  const navigate = useNavigate();
 
   //  event handler : 제목 변경 이벤트 처리
   const onTitleChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -87,7 +87,7 @@ export default function BoardWrite() {
   useEffect(() => {
     const accessToken = cookies.accessToken;
     if (!accessToken) {
-      navigator(MAIN_PATH());
+      navigate(MAIN_PATH());
       return ;
     }
     resetBoard();

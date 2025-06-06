@@ -23,6 +23,9 @@ import { GetSignInUserResponseDto } from 'apis/response/user';
 import { ResponseDto } from 'apis/response';
 import { User } from 'types/interface';
 import { getSignInUserRequest } from 'apis';
+import axios from 'axios';
+import { top3BoardListMock } from 'mocks';
+import Top3Item from 'components/Top3Item';
 
 
 //  component: Application 컴포넌트 
@@ -53,6 +56,26 @@ function App() {
     getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse);
   }, [cookies.accessToken]);
 
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     if (!cookies.accessToken) {
+  //       resetLoginUser(); // 로그인 유저 상태 초기화
+  //       return;
+  //     }
+  
+  //     const response = await getSignInUserRequest();
+  
+  //     if (!response || 'code' in response) {
+  //       resetLoginUser(); // 토큰이 만료됐거나 오류인 경우
+  //       return;
+  //     }
+  
+  //     getSignInUserResponse(response); // 정상 응답이면 유저 정보 업데이트
+  //   };
+  
+  //   fetchUser();
+  // }, [cookies.accessToken]);
+
   //  render: Application 컴포넌트 렌더링 
   //  description: 메인 화면 : '/' - Main 
   //  description: 로그인 + 회원가입 화면 : '/auth' - Authentication
@@ -70,12 +93,17 @@ function App() {
         <Route path={USER_PATH(`:userEmail`)} element={<UserP />} />
         <Route path={BOARD_PATH()}> 
           <Route path={BOARD_WRITE_PATH()} element={<BoardWrite />} />  
-          <Route path={BOARD_DETAIL_PATH(':boardNumber')} element={<BoardUpdate />} />
-          <Route path={BOARD_UPDATE_PATH(':boardNumber')} element={<BoardDetail />} />
+          <Route path={BOARD_DETAIL_PATH(':boardNumber')} element={<BoardDetail />} />
+          <Route path={BOARD_UPDATE_PATH(':boardNumber')} element={<BoardUpdate />} />
         </Route>
         <Route path='*' element={<h1>404 Not Found</h1>} />
       </Route>
     </Routes>
+    // <>
+    //   <div style={ { display: 'flex', justifyContent: 'center', gap: '24px'} }>
+    //     {top3BoardListMock.map(top3ListItem => <Top3Item top3ListItem={top3ListItem } />)}
+    //   </div>
+    // </>
   );
 }
 

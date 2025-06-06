@@ -1,9 +1,14 @@
 package com.jin.board_back.entity;
 
 import java.util.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
+import com.jin.board_back.dto.request.board.PatchBoardRequestDto;
 import com.jin.board_back.dto.request.board.PostBoardRequestDto;
 
 import jakarta.persistence.Column;
@@ -30,7 +35,11 @@ public class BoardEntity {
     @Column
     private String title;
     private String content;
-    private String writeDatetime;
+    
+    @Column(updatable = false)
+    @CreationTimestamp
+    private LocalDateTime writeDatetime;
+
     private int favoriteCount;
     private int commentCount;
     private int viewCount;
@@ -44,7 +53,7 @@ public class BoardEntity {
 
         this.title = dto.getTitle();
         this.content = dto.getContent();
-        this.writeDatetime = writeDatetime;
+        // this.writeDatetime = writeDatetime;
         this.favoriteCount = 0;
         this.commentCount = 0;
         this.viewCount = 0;
@@ -53,5 +62,22 @@ public class BoardEntity {
 
     public void increaseViewCount() {
         this.viewCount++;
+    }
+
+    public void increaseFavoriteCount() {
+        this.favoriteCount++;
+    }
+
+    public void increaseCommentCount() {
+        this.commentCount++;
+    }
+
+    public void decreaseFavoriteCount() {
+        this.favoriteCount--;
+    }
+
+    public void patchBoard(PatchBoardRequestDto dto) {
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
     }
 }

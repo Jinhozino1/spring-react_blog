@@ -1,6 +1,6 @@
-import ResponseDto from "apis/response/response.dto";
-import { User } from "types/interface";
+import { User } from 'types/interface';
+import ResponseDto from '../response.dto';
 
-export default interface getSignInUserResponseDto extends ResponseDto, User{
+export default interface GetSignInUserResponseDto extends ResponseDto, User{
 
 }

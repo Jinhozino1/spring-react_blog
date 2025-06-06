@@ -12,7 +12,7 @@ import lombok.Getter;
 
 @Getter
 public class GetSignInUserResponseDto extends ResponseDto{
-    
+
     private String email;
     private String nickname;
     private String profileImage;
@@ -24,9 +24,10 @@ public class GetSignInUserResponseDto extends ResponseDto{
         this.profileImage = userEntity.getProfileImage();
     }
 
-    public static ResponseEntity<GetSignInUserResponseDto> sucess(UserEntity userEntity) {
-        GetSignInUserResponseDto result = new GetSignInUserResponseDto(userEntity);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+    public static ResponseEntity<GetSignInUserResponseDto> success(UserEntity userEntity) {
+        // GetUserData data = GetUserData.fromEntity(userEntity);
+        GetSignInUserResponseDto responseBody = new GetSignInUserResponseDto(userEntity);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 
     public static ResponseEntity<ResponseDto> notExistUser() {
