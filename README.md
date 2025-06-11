@@ -4,8 +4,6 @@ back : spring boot 3.4.4
 
 
 -------------------------------------------------------------------------------
-![IMG_1509](https://github.com/user-attachments/assets/7cbadabd-bbb2-4590-ae58-579058e73811)
-
 
 # 메인 화면
 
