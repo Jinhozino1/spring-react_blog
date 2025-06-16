@@ -62,7 +62,7 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // 프론트엔드 도메인 허용
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://43.200.5.16")); // 프론트엔드 도메인 허용
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")); // HTTP 메서드 허용
         configuration.setAllowedHeaders(List.of("Content-Type", "Authorization")); // 필요한 헤더 허용
         configuration.setAllowCredentials(true); // 인증 정보 허용
