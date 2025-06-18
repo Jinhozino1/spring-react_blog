@@ -48,7 +48,7 @@ public class WebSecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/", "/api/v1/auth/**", "/api/v1/search/**", "/file/**", "/api/v1/search-list/**", "/api/v1/user-board-list/**" ).permitAll()
+                .requestMatchers("/", "/favicon.ico", "/api/v1/auth/**", "/api/v1/search/**", "/file/**", "/api/v1/search-list/**", "/api/v1/user-board-list/**" ).permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/board/**").permitAll()
                 .anyRequest().authenticated()
             )
