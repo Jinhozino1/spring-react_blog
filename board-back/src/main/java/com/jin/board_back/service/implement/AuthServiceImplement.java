@@ -1,8 +1,9 @@
 package com.jin.board_back.service.implement;
 
-
+import org.springframework.http.HttpHeaders;
 import java.util.Optional;
 
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -82,10 +83,23 @@ public class AuthServiceImplement implements AuthService {
 
             token = jwtProvider.create(email);
 
+            ResponseCookie cookie = ResponseCookie.from("token", token)
+                .httpOnly(true)
+                .secure(false) // 배포 시 https면 true로 설정
+                .sameSite("Lax") // 또는 "None" (None이면 secure true 필수)
+                .path("/")
+                .maxAge(60 * 60 * 24) // 1일
+                .build();
+
+            return ResponseEntity
+                .ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(SignInResponseDto.success(token)); // 필요시 token 전달
+                
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
-        return SignInResponseDto.success(token);
+        // return SignInResponseDto.success(token);
     }
 }

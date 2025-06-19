@@ -69,7 +69,7 @@ public class WebSecurityConfig {
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")); // HTTP 메서드 허용
         configuration.setAllowedHeaders(List.of("Content-Type", "Authorization")); // 필요한 헤더 허용
         configuration.setExposedHeaders(List.of("Authorization"));
-        configuration.setAllowCredentials(true); // 인증 정보 허용
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
