@@ -53,7 +53,7 @@ function App() {
       resetLoginUser();
       return;
     }
-    getSignInUserRequest().then(getSignInUserResponse);
+    getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse);
   }, [cookies.accessToken]);
 
   // useEffect(() => {

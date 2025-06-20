@@ -308,8 +308,8 @@ export const getUserRequest = async (email: string) => {
     return result;
 }; 
 
-export const getSignInUserRequest = async () => {
-    const result = await axios.get(GET_SIGN_IN_USER_URL(), { withCredentials: true })
+export const getSignInUserRequest = async (accessToken: string) => {
+    const result = await axios.get(GET_SIGN_IN_USER_URL())
         .then(response => {
             const responseBody: GetSignInUserResponseDto = response.data;
             return responseBody;
