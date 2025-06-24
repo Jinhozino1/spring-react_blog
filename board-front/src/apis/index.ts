@@ -9,7 +9,9 @@ import { GetPopularListResponseDto, GetRelationListResponseDto } from './respons
 import { PatchNicknameRequestDto, PatchProfileImageRequestDto } from './request/user';
 
 
-const DOMAIN = 'http://43.200.5.16:4000';
+// const DOMAIN = 'http://43.200.5.16:4000';
+
+const DOMAIN = 'https://jinhozinoboard.click'
 const API_DOMAIN = `${DOMAIN}/api/v1`;
 
 axios.defaults.withCredentials = true;
