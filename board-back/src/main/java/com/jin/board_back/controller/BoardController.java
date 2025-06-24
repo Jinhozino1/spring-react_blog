@@ -28,7 +28,7 @@ import com.jin.board_back.service.BoardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin(origins = "http://43.200.5.16:3000", allowCredentials = "true")
+// @CrossOrigin(origins = "http://43.200.5.16:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/v1/board")
 @RequiredArgsConstructor
