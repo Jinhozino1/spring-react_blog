@@ -72,7 +72,7 @@ public class AuthServiceImplement implements AuthService {
             // UserEntity userEntity = optionalUserEntity.get();
             
             UserEntity userEntity = userRepository.findByEmail(email);
-            if (userEntity == null) return PatchNicknameResponseDto.noExistUser();
+            if (userEntity == null) return SignInResponseDto.signInFail();
 
             
 
@@ -85,8 +85,8 @@ public class AuthServiceImplement implements AuthService {
 
             ResponseCookie cookie = ResponseCookie.from("token", token)
                 .httpOnly(true)
-                .secure(false) // 배포 시 https면 true로 설정
-                // .sameSite("Lax") // 또는 "None" (None이면 secure true 필수)
+                .secure(true) // 배포 시 https면 true로 설정
+                .sameSite("None") // 또는 "None" (None이면 secure true 필수)
                 .path("/")
                 .maxAge(60 * 60 * 24) // 1일
                 .build();
