@@ -71,8 +71,8 @@ public class WebSecurityConfig {
         configuration.setAllowedOrigins(List.of(
             "http://localhost:3000",
             "http://43.200.5.16:3000", 
-            "https://jinhozinoboard.click",
-            "https://www.jinhozinoboard.click"
+            "https://jinhozinoboard.click"
+            // "https://www.jinhozinoboard.click"
         )); // 프론트엔드 도메인 허용
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")); // HTTP 메서드 허용
         configuration.setAllowedHeaders(List.of("Content-Type", "Authorization")); // 필요한 헤더 허용
