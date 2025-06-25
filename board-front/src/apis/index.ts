@@ -11,7 +11,7 @@ import { PatchNicknameRequestDto, PatchProfileImageRequestDto } from './request/
 
 // const DOMAIN = 'http://43.200.5.16:4000';
 
-const DOMAIN = 'https://www.jinhozinoboard.click'
+const DOMAIN = 'https://jinhozinoboard.click'
 const API_DOMAIN = `${DOMAIN}/api/v1`;
 
 axios.defaults.withCredentials = true;
