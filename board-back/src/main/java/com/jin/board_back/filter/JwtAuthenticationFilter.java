@@ -107,7 +107,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private boolean isPermitAllPath(String path, String method) {
     return path.startsWith("/api/v1/auth/") ||     // 로그인, 회원가입 등
            path.startsWith("/file/") ||
-           (path.equals("/api/v1/user") && method.equals("GET")) ||
            path.startsWith("/api/v1/user/") ||
            path.startsWith("/api/v1/search/") ||
            path.startsWith("/api/v1/user-board-list/");
