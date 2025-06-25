@@ -63,6 +63,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         try {
+            String path = request.getRequestURI();
+            String method = request.getMethod();
+            if (isPermitAllPath(path, method)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
             String token = parseBearerToken(request);
             if (token == null) {
                 filterChain.doFilter(request, response);
@@ -96,6 +103,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
+    private boolean isPermitAllPath(String path, String method) {
+    return path.startsWith("/api/v1/auth/") ||     // 로그인, 회원가입 등
+           path.startsWith("/file/") ||
+           (path.equals("/api/v1/user") && method.equals("GET")) ||
+           path.startsWith("/api/v1/user/") ||
+           path.startsWith("/api/v1/search/") ||
+           path.startsWith("/api/v1/user-board-list/");
+}
 
     private String parseBearerToken(HttpServletRequest request) {
     // 1. 쿠키에서 accessToken 확인
