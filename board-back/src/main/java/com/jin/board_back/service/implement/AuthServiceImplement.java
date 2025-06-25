@@ -89,6 +89,7 @@ public class AuthServiceImplement implements AuthService {
                 .sameSite("None") // 또는 "None" (None이면 secure true 필수)
                 .path("/")
                 .maxAge(60 * 60 * 24) // 1일
+                .domain("jinhozinoboard.click")
                 .build();
 
             return ResponseEntity
