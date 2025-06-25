@@ -53,10 +53,7 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
             )
             .anonymous(anonymous -> anonymous.disable())
-            .exceptionHandling(ex -> ex.authenticationEntryPoint(new FailedAuthenticationEntryPoint()))
-            .requiresChannel(channel -> channel
-            .anyRequest().requiresSecure()
-            );
+            .exceptionHandling(ex -> ex.authenticationEntryPoint(new FailedAuthenticationEntryPoint()));
             // .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
