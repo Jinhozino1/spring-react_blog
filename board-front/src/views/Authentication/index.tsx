@@ -54,11 +54,11 @@ export default function Authentication() {
       if (code === 'SF' || code === 'VF') setError(true);
       if (code !== 'SU') return;
 
-      const { token, expirationTime } = responseBody as SignInResponseDto;
-      const now = new Date().getTime();
-      const expires = new Date(now + expirationTime * 1000);
+      // const { token, expirationTime } = responseBody as SignInResponseDto;
+      // const now = new Date().getTime();
+      // const expires = new Date(now + expirationTime * 1000);
 
-      setCookie('accessToken', token, { expires, path: MAIN_PATH() });
+      // setCookie('accessToken', token, { expires, path: MAIN_PATH() });
       navigate(MAIN_PATH());
     }
 

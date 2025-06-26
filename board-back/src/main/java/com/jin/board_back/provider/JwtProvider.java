@@ -37,12 +37,13 @@ public class JwtProvider {
     }
 
     public String create(String email) {
-
-        Date expiredDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
+        Instant now = Instant.now();
+        Date issuedAt = Date.from(now);
+        Date expiredDate = Date.from(Instant.now().plus(1, ChronoUnit.DAYS));
         
         String jwt = Jwts.builder()
             .setSubject(email)
-            .setIssuedAt(new Date())
+            .setIssuedAt(issuedAt)
             .setExpiration(expiredDate)
             .signWith(secretKey, SignatureAlgorithm.HS256)
             .compact();
