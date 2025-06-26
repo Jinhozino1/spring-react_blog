@@ -83,7 +83,7 @@ public class AuthServiceImplement implements AuthService {
 
             token = jwtProvider.create(email);
 
-            ResponseCookie cookie = ResponseCookie.from("accessToken", token)
+            ResponseCookie cookie = ResponseCookie.from("token", token)
                 .httpOnly(true)
                 .secure(true) // 배포 시 https면 true로 설정
                 .sameSite("None") // 또는 "None" (None이면 secure true 필수)
