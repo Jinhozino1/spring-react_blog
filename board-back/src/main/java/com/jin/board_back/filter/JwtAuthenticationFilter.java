@@ -117,11 +117,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("accessToken")) {
+            if (cookie.getName().equals("token")) {
                 String token = cookie.getValue();
+                System.out.println("🟢 인증 방식: 쿠키(token) 사용");
                 return token;
             }
         }
+    }
+    // 2. Authorization 헤더에서 Bearer 토큰 찾기
+    String authorizationHeader = request.getHeader("Authorization");
+    if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+        System.out.println("🟠 인증 방식: Authorization 헤더 사용");
+        return authorizationHeader.substring(7); // "Bearer " 이후 토큰만 추출
     }
     
     return null;
