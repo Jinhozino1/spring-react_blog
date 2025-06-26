@@ -36,7 +36,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/file/",
         "/api/v1/auth/",
         "/api/v1/search/",
-        "/api/v1/user",        // GETㅂ
         "/api/v1/user/",
         "/api/v1/search/",
         "/api/v1/user-board-list/"
@@ -117,7 +116,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
+            if (cookie.getName().equals("accessToken")) {
                 String token = cookie.getValue();
                 System.out.println("🟢 인증 방식: 쿠키(token) 사용");
                 return token;

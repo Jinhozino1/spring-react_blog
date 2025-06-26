@@ -74,8 +74,6 @@ public class AuthServiceImplement implements AuthService {
             UserEntity userEntity = userRepository.findByEmail(email);
             if (userEntity == null) return SignInResponseDto.signInFail();
 
-            
-
             String password = dto.getPassword();
             String encodePassword = userEntity.getPassword();
             boolean isMatched = passwordEncoder.matches(password, encodePassword);
@@ -83,14 +81,22 @@ public class AuthServiceImplement implements AuthService {
 
             token = jwtProvider.create(email);
 
-            ResponseCookie cookie = ResponseCookie.from("token", token)
+            ResponseCookie cookie = ResponseCookie.from("accessToken", token)
                 .httpOnly(true)
                 .secure(true) // 배포 시 https면 true로 설정
                 .sameSite("None") // 또는 "None" (None이면 secure true 필수)
                 .path("/")
                 .maxAge(60 * 60 * 24) // 1일
-                .domain("jinhozinoboard.click")
+                 .domain("jinhozinoboard.click")
                 .build();
+
+
+                // .httpOnly(true)
+                // .secure(false)
+                // .sameSite("Lax")
+                // .path("/")
+                // .maxAge(60 * 60 * 24)
+                // .build();
 
             return ResponseEntity
                 .ok()

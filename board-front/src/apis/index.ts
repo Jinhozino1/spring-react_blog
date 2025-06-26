@@ -10,6 +10,7 @@ import { PatchNicknameRequestDto, PatchProfileImageRequestDto } from './request/
 
 
 // const DOMAIN = 'http://43.200.5.16:4000';
+// const DOMAIN = 'http://localhost:4000';
 
 const DOMAIN = 'https://jinhozinoboard.click'
 const API_DOMAIN = `${DOMAIN}/api/v1`;

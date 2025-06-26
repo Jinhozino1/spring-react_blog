@@ -6,9 +6,11 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.security.SignatureException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -59,9 +61,16 @@ public class JwtProvider {
             String email = claims.getSubject();
             return email;
     
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return null;
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            System.out.println("❌ JWT 만료됨: " + e.getMessage());
+        } catch (io.jsonwebtoken.SignatureException e) {
+            System.out.println("❌ JWT 서명 오류: " + e.getMessage());
+        } catch (io.jsonwebtoken.MalformedJwtException e) {
+            System.out.println("❌ JWT 형식 오류: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("❌ 기타 JWT 오류: " + e.getMessage());
+            e.printStackTrace();
         }
+    return null;
     }
 }
