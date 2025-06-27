@@ -53,28 +53,28 @@ function App() {
       resetLoginUser();
       return;
     }
-    getSignInUserRequest().then(getSignInUserResponse);
+    getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse);
   }, [cookies.accessToken]);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (!cookies.accessToken) {
-        resetLoginUser(); // 로그인 유저 상태 초기화
-        return;
-      }
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     if (!cookies.accessToken) {
+  //       resetLoginUser(); // 로그인 유저 상태 초기화
+  //       return;
+  //     }
   
-      const response = await getSignInUserRequest();
+  //     const response = await getSignInUserRequest();
   
-      if (!response || 'code' in response) {
-        resetLoginUser(); // 토큰이 만료됐거나 오류인 경우
-        return;
-      }
+  //     if (!response || 'code' in response) {
+  //       resetLoginUser(); // 토큰이 만료됐거나 오류인 경우
+  //       return;
+  //     }
   
-      getSignInUserResponse(response); // 정상 응답이면 유저 정보 업데이트
-    };
+  //     getSignInUserResponse(response); // 정상 응답이면 유저 정보 업데이트
+  //   };
   
-    fetchUser();
-  }, [cookies.accessToken]);
+  //   fetchUser();
+  // }, [cookies.accessToken]);
 
   //  render: Application 컴포넌트 렌더링 
   //  description: 메인 화면 : '/' - Main 
