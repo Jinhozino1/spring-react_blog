@@ -51,12 +51,10 @@ function App() {
   useEffect(() => {
     console.log("accessToken 감지", cookies.accessToken);
 
-    if (!cookies.accessToken) {
-      resetLoginUser();
-      return;
-    }
-    getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse);
-  }, [cookies.accessToken]);
+    getSignInUserRequest()
+      .then(getSignInUserResponse)
+      .catch(() => resetLoginUser());
+  }, []);
 
   // useEffect(() => {
   //   const fetchUser = async () => {
