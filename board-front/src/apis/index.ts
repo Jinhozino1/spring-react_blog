@@ -27,7 +27,7 @@ const authorization = (accessToken: string) => {
 export const signInRequest = async (requestBody: SignInRequestDto) => {
 const result = await axios.post(SIGN_IN_URL(), requestBody)
     .then(response => {
-        console.log(response.data);
+        console.log("로그인 응답", response.data);
         const responseBody: SignInResponseDto = response.data;
         return responseBody;
     })
