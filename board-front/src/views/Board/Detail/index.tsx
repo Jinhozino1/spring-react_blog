@@ -280,7 +280,7 @@ export default function BoardDetail() {
       if (!comment || !boardNumber || !loginUser || !cookies.accessToken) return;
 
       const requestBody: PostCommentRequestDto = { content: comment };
-      postCommentRequest(boardNumber, requestBody, cookies.accessToken).then(postCommentResponse);
+      postCommentRequest(boardNumber, requestBody).then(postCommentResponse);
       
     }
     //  event handler: 댓글 변경 이벤트 처리

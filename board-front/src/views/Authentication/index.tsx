@@ -59,9 +59,9 @@ export default function Authentication() {
       // const expires = new Date(now + expirationTime * 1000);
 
       // setCookie('accessToken', token, { expires, path: MAIN_PATH() });
-      console.log("login !")
+      console.log("login !");
       navigate(MAIN_PATH());
-      console.log("navigate main !")
+      console.log("navigate main !");
     }
 
     //  event handler: 이메일 변경 이벤트 처리

@@ -20,11 +20,11 @@ axios.defaults.withCredentials = true;
 const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
 const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;
 
-export const authorization = (accessToken: string) => ({
-    headers: {
-        Authorization: `Bearer ${accessToken}`
-    }
-});
+// export const authorization = (accessToken: string) => ({
+//     headers: {
+//         Authorization: `Bearer ${accessToken}`
+//     }
+// });
 
 export const signInRequest = async (requestBody: SignInRequestDto) => {
 const result = await axios.post(SIGN_IN_URL(), requestBody )
@@ -184,9 +184,8 @@ export const getCommentListRequest = async (boardNumber: number | string) => {
     return result;
 };
 
-export const postCommentRequest = async (boardNumber: number | string, requestBody: PostCommentRequestDto, accessToken: string) => {
-    const result = await axios.post(POST_COMMENT_URL(boardNumber), requestBody, {
-        headers: { Authorization: `Bearer ${accessToken}` } })
+export const postCommentRequest = async (boardNumber: number | string, requestBody: PostCommentRequestDto) => {
+    const result = await axios.post(POST_COMMENT_URL(boardNumber), requestBody)
         .then(response => {
             const responseBody: PostCommentResponseDto = response.data;
             return responseBody;
@@ -248,7 +247,7 @@ export const putFavoriteRequest = async (boardNumber: number | string, accessTok
 };
 
 export const deleteBoardRequest = async (boardNumber: number | string, accessToken: string) => {
-    const result = await axios.delete(DELETE_BOARD_URL(boardNumber), authorization(accessToken))
+    const result = await axios.delete(DELETE_BOARD_URL(boardNumber))
         .then(response => {
             const responseBody: DeleteBoardResponseDto = response.data;
             return responseBody;
@@ -311,7 +310,7 @@ export const getUserRequest = async (email: string) => {
     return result;
 }; 
 
-export const getSignInUserRequest = async (accessToken: string) => {
+export const getSignInUserRequest = async () => {
     const result = await axios.get(GET_SIGN_IN_USER_URL())
         .then(response => {
             const responseBody: GetSignInUserResponseDto = response.data;
@@ -326,7 +325,7 @@ export const getSignInUserRequest = async (accessToken: string) => {
 };
 
 export const patchNicknameRequest = async (requestBody:PatchNicknameRequestDto, accessToken: string) => {
-    const result = await axios.patch(PATCH_NICKNAME_URL(), requestBody, authorization(accessToken))
+    const result = await axios.patch(PATCH_NICKNAME_URL(), requestBody)
         .then(response => {
             const responseBody: PatchNicknameResponseDto = response.data;
             return responseBody;
@@ -340,7 +339,7 @@ export const patchNicknameRequest = async (requestBody:PatchNicknameRequestDto, 
 };
 
 export const patchProfileImageRequest = async (requestBody:PatchProfileImageRequestDto, accessToken: string) => {
-    const result = await axios.patch(PATCH_PROFILE_IMAGE_URL(), requestBody, authorization(accessToken))
+    const result = await axios.patch(PATCH_PROFILE_IMAGE_URL(), requestBody)
         .then(response => {
             const responseBody: PatchProfileImageResponseDto = response.data;
             return responseBody;
