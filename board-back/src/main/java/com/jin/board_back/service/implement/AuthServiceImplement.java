@@ -83,7 +83,7 @@ public class AuthServiceImplement implements AuthService {
 
             token = jwtProvider.create(email);
 
-            ResponseCookie responseCookiecookie = ResponseCookie.from("accessToken", token)
+            ResponseCookie cookie = ResponseCookie.from("accessToken", token)
                 .httpOnly(true)
                 .secure(true) // 배포 시 https면 true로 설정
                 .sameSite("None") // 또는 "None" (None이면 secure true 필수)
@@ -92,19 +92,10 @@ public class AuthServiceImplement implements AuthService {
                 .domain("jinhozinoboard.click")
                 .build();
 
-            String accessToken = jwtProvider.create(email); // 혹은 이미 만든 토큰
-            Cookie cookie = new Cookie("accessToken", accessToken);
-            cookie.setHttpOnly(true);
-            cookie.setSecure(true); // https 환경에서만
-            cookie.setPath("/");
-            cookie.setMaxAge(24 * 60 * 60);
-            cookie.setDomain("jinhozinoboard.click"); // 실서비스 도메인
-            response.addCookie(cookie);
-
             return ResponseEntity
                 .ok()
-                .header(HttpHeaders.SET_COOKIE, responseCookiecookie.toString())
-                .body(SignInResponseDto.success(token)); // 필요시 token 전달
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(SignInResponseDto.success()); // 필요시 token 전달
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
