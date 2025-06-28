@@ -19,6 +19,8 @@ import com.jin.board_back.provider.JwtProvider;
 import com.jin.board_back.repository.UserRepository;
 import com.jin.board_back.service.AuthService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -60,7 +62,7 @@ public class AuthServiceImplement implements AuthService {
     }
 
     @Override
-    public ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto) {
+    public ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto, HttpServletResponse response) {
         
         String token = null;
 
@@ -81,7 +83,7 @@ public class AuthServiceImplement implements AuthService {
 
             token = jwtProvider.create(email);
 
-            ResponseCookie cookie = ResponseCookie.from("accessToken", token)
+            ResponseCookie responseCookiecookie = ResponseCookie.from("accessToken", token)
                 .httpOnly(true)
                 .secure(true) // 배포 시 https면 true로 설정
                 .sameSite("None") // 또는 "None" (None이면 secure true 필수)
@@ -89,18 +91,19 @@ public class AuthServiceImplement implements AuthService {
                 .maxAge(60 * 60 * 24) // 1일
                 .domain("jinhozinoboard.click")
                 .build();
-            
 
-                // .httpOnly(true)
-                // .secure(false)
-                // .sameSite("Lax")
-                // .path("/")
-                // .maxAge(60 * 60 * 24)
-                // .build();
+            String accessToken = jwtProvider.create(email); // 혹은 이미 만든 토큰
+            Cookie cookie = new Cookie("accessToken", accessToken);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true); // https 환경에서만
+            cookie.setPath("/");
+            cookie.setMaxAge(24 * 60 * 60);
+            cookie.setDomain("jinhozinoboard.click"); // 실서비스 도메인
+            response.addCookie(cookie);
 
             return ResponseEntity
                 .ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .header(HttpHeaders.SET_COOKIE, responseCookiecookie.toString())
                 .body(SignInResponseDto.success(token)); // 필요시 token 전달
         } catch (Exception exception) {
             exception.printStackTrace();

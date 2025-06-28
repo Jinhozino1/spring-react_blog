@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jin.board_back.service.AuthService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -35,9 +36,10 @@ public class AuthController {
     
     @PostMapping("/sign-in")
     public ResponseEntity<? super SignInResponseDto> signIn(
-        @RequestBody @Valid SignInRequestDto requestBody
+        @RequestBody @Valid SignInRequestDto requestBody,
+        HttpServletResponse cookieResponse
         ) {
-            ResponseEntity<? super SignInResponseDto> response = authService.signIn(requestBody);
+            ResponseEntity<? super SignInResponseDto> response = authService.signIn(requestBody, cookieResponse);
             return response;
     }
     
