@@ -296,7 +296,9 @@ const PATCH_NICKNAME_URL = () => `${API_DOMAIN}/user/nickname`;
 const PATCH_PROFILE_IMAGE_URL = () => `${API_DOMAIN}/user/profile-image`;
 
 export const getUserRequest = async (email: string) => {
-    const result = await axios.get(GET_USER_URL(email))
+    const result = await axios.get(GET_USER_URL(email), {
+        withCredentials: true
+    })
         .then(response => {
             const responseBody: GetUserResponseDto = response.data;
             return responseBody;
