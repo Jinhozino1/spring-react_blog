@@ -95,7 +95,7 @@ public class AuthServiceImplement implements AuthService {
             return ResponseEntity
                 .ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(SignInResponseDto.success()); // 필요시 token 전달
+                .body(SignInResponseDto.success(token)); // 필요시 token 전달
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
