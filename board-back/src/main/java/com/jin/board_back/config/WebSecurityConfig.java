@@ -52,7 +52,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/board/**").permitAll()
                 .anyRequest().authenticated()
             )
-            .anonymous(anonymous -> anonymous.disable())
+            // .anonymous(anonymous -> anonymous.disable())
             .exceptionHandling(ex -> ex.authenticationEntryPoint(new FailedAuthenticationEntryPoint()));
             // .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
