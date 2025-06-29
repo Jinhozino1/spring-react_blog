@@ -14,14 +14,14 @@ public class SignInResponseDto extends ResponseDto{
     private String token;
     private int expirationTime;
 
-    private SignInResponseDto() {
+    private SignInResponseDto(String token) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         this.token = token;
         this.expirationTime = 3600;
     }
 
     public static ResponseEntity<SignInResponseDto> success (String token) {
-        SignInResponseDto result = new SignInResponseDto();
+        SignInResponseDto result = new SignInResponseDto(token);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
