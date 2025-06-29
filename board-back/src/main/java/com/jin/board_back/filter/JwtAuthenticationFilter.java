@@ -23,6 +23,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -34,11 +35,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final List<String> permitAllPaths = List.of(  
         "/file/",
-        "/api/v1/auth/",
-        "/api/v1/search/",
-        "/api/v1/user/",
-        "/api/v1/search/",
-        "/api/v1/user-board-list/"
+        "/api/v1/auth/"
+        // "/api/v1/search/",
+        // "/api/v1/user/",
+        // "/api/v1/search/",
+        // "/api/v1/user-board-list/"
     );
 
     // private boolean isPermitAllPath(HttpServletRequest request) {
@@ -64,6 +65,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String path = request.getRequestURI();
             String method = request.getMethod();
+            
             if (isPermitAllPath(path, method)) {
             filterChain.doFilter(request, response);
             return;
@@ -90,9 +92,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
             securityContext.setAuthentication(authenticationToken);
             
-            SecurityContextHolder.setContext(securityContext);
-                
-            // SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            // SecurityContextHolder.setContext(securityContext);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
 
         } catch (Exception exception) {
@@ -105,10 +106,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean isPermitAllPath(String path, String method) {
     return path.startsWith("/api/v1/auth/") ||     // 로그인, 회원가입 등
-           path.startsWith("/file/") ||
-           path.startsWith("/api/v1/user/") ||
-           path.startsWith("/api/v1/search/") ||
-           path.startsWith("/api/v1/user-board-list/");
+           path.startsWith("/file/") ;
+        //    path.startsWith("/api/v1/user/") ||
+        //    path.startsWith("/api/v1/search/") ||
+        //    path.startsWith("/api/v1/user-board-list/");
 }
 
     private String parseBearerToken(HttpServletRequest request) {
@@ -116,10 +117,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("accessToken")) {
-                String token = cookie.getValue();
+            if ("accessToken".equals(cookie.getName())) {
                 System.out.println("🟢 인증 방식: 쿠키(token) 사용");
-                return token;
+                return cookie.getValue();
             }
         }
     }
