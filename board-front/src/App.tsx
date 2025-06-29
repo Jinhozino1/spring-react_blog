@@ -50,11 +50,12 @@ function App() {
   //  effect: accessToken cookie 값이 변경될 떄 마다 실행할 함수
   useEffect(() => {
     console.log("accessToken 감지", cookies.accessToken);
-
+    console.log("document.cookie: " + document.cookie);
+    if (cookies.accessToken)
     getSignInUserRequest()
       .then(getSignInUserResponse)
       .catch(() => resetLoginUser());
-  }, []);
+  }, [cookies.accessToken]);
 
   // useEffect(() => {
   //   const fetchUser = async () => {
