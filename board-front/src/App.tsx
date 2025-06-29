@@ -51,11 +51,11 @@ function App() {
   useEffect(() => {
     console.log("accessToken 감지", cookies.accessToken);
     console.log("document.cookie: " + document.cookie);
-    if (cookies.accessToken)
+    
     getSignInUserRequest()
       .then(getSignInUserResponse)
       .catch(() => resetLoginUser());
-  }, [cookies.accessToken]);
+  }, []);
 
   // useEffect(() => {
   //   const fetchUser = async () => {
