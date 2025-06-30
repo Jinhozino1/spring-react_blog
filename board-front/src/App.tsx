@@ -48,13 +48,14 @@ function App() {
     setLoginUser(loginUser);
   }
   //  effect: accessToken cookie 값이 변경될 떄 마다 실행할 함수
-  useEffect(() => {
-    console.log("accessToken 감지", cookies.accessToken);
+  useEffect ( () => {
+    console.log("cookies.accessToken: " + cookies.accessToken);
     console.log("document.cookie: " + document.cookie);
-    
-    getSignInUserRequest()
-      .then(getSignInUserResponse)
-      .catch(() => resetLoginUser());
+    if (!cookies.accessToken) {
+      resetLoginUser();
+      return;
+    }
+    getSignInUserRequest(cookies.accessToken)
   }, [cookies.accessToken]);
 
   // useEffect(() => {

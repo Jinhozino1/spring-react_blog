@@ -27,7 +27,7 @@ const authorization = (accessToken: string) => {
 export const signInRequest = async (requestBody: SignInRequestDto) => {
 const result = await axios.post(SIGN_IN_URL(), requestBody)
     .then(response => {
-        console.log("로그인 응답", response.data);
+        console.log(response.data);
         const responseBody: SignInResponseDto = response.data;
         return responseBody;
     })
@@ -296,9 +296,7 @@ const PATCH_NICKNAME_URL = () => `${API_DOMAIN}/user/nickname`;
 const PATCH_PROFILE_IMAGE_URL = () => `${API_DOMAIN}/user/profile-image`;
 
 export const getUserRequest = async (email: string) => {
-    const result = await axios.get(GET_USER_URL(email), {
-        withCredentials: true
-    })
+    const result = await axios.get(GET_USER_URL(email))
         .then(response => {
             const responseBody: GetUserResponseDto = response.data;
             return responseBody;
@@ -311,9 +309,9 @@ export const getUserRequest = async (email: string) => {
     return result;
 }; 
 
-export const getSignInUserRequest = async () => {
-    const result = await axios.get(GET_SIGN_IN_USER_URL())
-            .then(response => {
+export const getSignInUserRequest = async (accessToken: string) => {
+    const result = await axios.get(GET_SIGN_IN_USER_URL(), { headers: { Authorization: `Bearer ${accessToken}` } })
+        .then(response => {
             const responseBody: GetSignInUserResponseDto = response.data;
             return responseBody;
         })
