@@ -55,7 +55,7 @@ function App() {
     getSignInUserRequest()
       .then(getSignInUserResponse)
       .catch(() => resetLoginUser());
-  }, []);
+  }, [cookies.accessToken]);
 
   // useEffect(() => {
   //   const fetchUser = async () => {
