@@ -1,7 +1,5 @@
 package com.jin.board_back.service.implement;
 
-import org.springframework.http.HttpHeaders;
-import java.util.Optional;
 
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +11,11 @@ import com.jin.board_back.dto.request.auth.SignUpRequestDto;
 import com.jin.board_back.dto.response.ResponseDto;
 import com.jin.board_back.dto.response.auth.SignInResponseDto;
 import com.jin.board_back.dto.response.auth.SignUpResponseDto;
-import com.jin.board_back.dto.response.user.PatchNicknameResponseDto;
+
 import com.jin.board_back.entity.UserEntity;
 import com.jin.board_back.provider.JwtProvider;
 import com.jin.board_back.repository.UserRepository;
 import com.jin.board_back.service.AuthService;
-
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -62,7 +57,7 @@ public class AuthServiceImplement implements AuthService {
     }
 
     @Override
-    public ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto, HttpServletResponse response) {
+    public ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto) {
         
         String token = null;
 
@@ -76,29 +71,34 @@ public class AuthServiceImplement implements AuthService {
             UserEntity userEntity = userRepository.findByEmail(email);
             if (userEntity == null) return SignInResponseDto.signInFail();
 
+            
+
             String password = dto.getPassword();
             String encodePassword = userEntity.getPassword();
             boolean isMatched = passwordEncoder.matches(password, encodePassword);
             if(!isMatched) return SignInResponseDto.signInFail();
 
-            token = jwtProvider.create(email);
+            token = jwtProvider.create(email);  
 
             ResponseCookie cookie = ResponseCookie.from("accessToken", token)
-                .httpOnly(true)
+                .httpOnly(false)
                 .secure(true) // 배포 시 https면 true로 설정
+                .domain("jinhozinoboard.click")
                 .sameSite("None") // 또는 "None" (None이면 secure true 필수)
                 .path("/")
                 .maxAge(60 * 60 * 24) // 1일
-                .domain("jinhozinoboard.click")
                 .build();
 
             return ResponseEntity
                 .ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .header(org.springframework.http.HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(SignInResponseDto.success(token)); // 필요시 token 전달
+                        // return SignInResponseDto.success(token);
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
+        // return SignInResponseDto.success(token);
     }
 }

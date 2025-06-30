@@ -249,6 +249,7 @@ export default function Header() {
         setUserPage(isUserPage);
     }, [pathname]);
 
+    //  effect: login user가 변경될 때 마다 실행될 함수
     useEffect(() => {
         setLogin(loginUser !== null);
     }, [loginUser])

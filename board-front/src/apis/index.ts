@@ -10,9 +10,9 @@ import { PatchNicknameRequestDto, PatchProfileImageRequestDto } from './request/
 
 
 // const DOMAIN = 'http://43.200.5.16:4000';
-// const DOMAIN = 'http://localhost:4000';
+const DOMAIN = 'http://localhost:4000';
 
-const DOMAIN = 'https://jinhozinoboard.click'
+// const DOMAIN = 'https://jinhozinoboard.click'
 const API_DOMAIN = `${DOMAIN}/api/v1`;
 
 axios.defaults.withCredentials = true;
@@ -310,7 +310,7 @@ export const getUserRequest = async (email: string) => {
 }; 
 
 export const getSignInUserRequest = async (accessToken: string) => {
-    const result = await axios.get(GET_SIGN_IN_USER_URL(), { headers: { Authorization: `Bearer ${accessToken}` } })
+    const result = await axios.get(GET_SIGN_IN_USER_URL(), authorization(accessToken))
         .then(response => {
             const responseBody: GetSignInUserResponseDto = response.data;
             return responseBody;
