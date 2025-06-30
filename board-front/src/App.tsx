@@ -51,11 +51,12 @@ function App() {
   useEffect ( () => {
     console.log("cookies.accessToken: " + cookies.accessToken);
     console.log("document.cookie: " + document.cookie);
+    
     if (!cookies.accessToken) {
       resetLoginUser();
       return;
     }
-    getSignInUserRequest(cookies.accessToken)
+    getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse)
   }, [cookies.accessToken]);
 
   // useEffect(() => {
