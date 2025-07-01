@@ -47,6 +47,14 @@ export default function Header() {
     //  function: 네비게이트 함수
     const navigate = useNavigate();
 
+    // 📌 디버깅 콘솔
+    console.log("=== HEADER DEBUG ===");
+    console.log("loginUser: ", loginUser);
+    console.log("isLogin: ", isLogin);
+    console.log("cookies.accessToken: ", cookies.accessToken);
+    console.log("pathname: ", pathname);
+    console.log("====================");
+
     //  event handler: 로고 클릭 이벤트 처리 함수
     const onLogoClickHandler = () => {
         navigate(MAIN_PATH());
@@ -141,6 +149,7 @@ export default function Header() {
             navigate(AUTH_PATH());
         };
 
+        console.log("MyPageButton isLogin: ", isLogin);
         
         //  render: 로그아웃 버튼 컴포넌트 렌더링
         if(isLogin && userEmail && userEmail === loginUser?.email)
@@ -254,7 +263,8 @@ export default function Header() {
         setLogin(loginUser !== null);
     }, [loginUser])
 
-
+console.log("loginUser: ", loginUser)
+console.log("isLogin: ", isLogin)
     
     //  render: 헤더 레이아웃 렌더링
   return (

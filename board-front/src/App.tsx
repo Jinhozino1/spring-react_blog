@@ -49,13 +49,11 @@ function App() {
   }
   //  effect: accessToken cookie 값이 변경될 떄 마다 실행할 함수
   useEffect ( () => {
-    console.log("cookies.accessToken: " + cookies.accessToken);
-    console.log("document.cookie: " + document.cookie);
-
     if (!cookies.accessToken) {
       resetLoginUser();
       return;
     }
+    
     getSignInUserRequest(cookies.accessToken).then(getSignInUserResponse)
   }, [cookies.accessToken]);
 
@@ -75,10 +73,10 @@ function App() {
   
       getSignInUserResponse(response); // 정상 응답이면 유저 정보 업데이트
     };
-  
+    
     fetchUser();
   }, [cookies.accessToken]);
-
+  
   //  render: Application 컴포넌트 렌더링 
   //  description: 메인 화면 : '/' - Main 
   //  description: 로그인 + 회원가입 화면 : '/auth' - Authentication
