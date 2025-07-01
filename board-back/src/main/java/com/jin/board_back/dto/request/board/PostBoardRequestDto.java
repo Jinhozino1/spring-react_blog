@@ -3,7 +3,7 @@ package com.jin.board_back.dto.request.board;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +19,6 @@ public class PostBoardRequestDto {
     @NotBlank
     private String content;
     
-    @NotEmpty
+    @NotNull
     private List<String> boardImageList;
 }

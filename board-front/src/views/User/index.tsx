@@ -182,7 +182,7 @@ export default function User() {
               <div className='user-top-info-nickname'>{nickname}</div>
               }
             </div>
-            <div className='user-top-info-email'>{'email@email.com'}</div> 
+            <div className='user-top-info-email'>{userEmail}</div> 
           </div>
         </div>
       </div>

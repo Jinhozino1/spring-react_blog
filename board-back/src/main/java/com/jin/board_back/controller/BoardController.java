@@ -28,7 +28,7 @@ import com.jin.board_back.service.BoardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-// @CrossOrigin(origins = "http://43.200.5.16:3000", allowCredentials = "true")
+@CrossOrigin(allowCredentials = "true")
 @RestController
 @RequestMapping("/api/v1/board")
 @RequiredArgsConstructor
@@ -105,11 +105,11 @@ public class BoardController {
 
     @PostMapping("")
     public ResponseEntity<? super PostBoardResponseDto> postBoard (
-        @RequestBody @Valid PostBoardRequestDto requestDto,
+        @RequestBody @Valid PostBoardRequestDto requestBody,
         @AuthenticationPrincipal CustomUserDetails userDetails
      ) {
          String email = userDetails.getEmail();
-         ResponseEntity<? super PostBoardResponseDto> response = boardService.postBoard((requestDto), email);
+         ResponseEntity<? super PostBoardResponseDto> response = boardService.postBoard(requestBody, email);
          return response;
       }
 

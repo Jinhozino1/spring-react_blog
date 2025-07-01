@@ -3,6 +3,7 @@ package com.jin.board_back.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ import com.jin.board_back.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-// @CrossOrigin(origins = "http://43.200.5.16:3000", allowCredentials = "true")
+@CrossOrigin(allowCredentials = "true")
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
