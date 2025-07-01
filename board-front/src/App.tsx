@@ -59,11 +59,12 @@ function App() {
 
   useEffect(() => {
     const fetchUser = async () => {
+      console.log("fetchUser : " + fetchUser);
       if (!cookies.accessToken) {
         resetLoginUser(); // 로그인 유저 상태 초기화
         return;
       }
-      console.log("fetchUser : " + fetchUser);
+
       const response = await getSignInUserRequest(cookies.accessToken);
   
       if (!response || 'code' in response) {

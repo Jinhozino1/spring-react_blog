@@ -262,9 +262,6 @@ export default function Header() {
     useEffect(() => {
         setLogin(loginUser !== null);
     }, [loginUser])
-
-console.log("loginUser: ", loginUser)
-console.log("isLogin: ", isLogin)
     
     //  render: 헤더 레이아웃 렌더링
   return (
