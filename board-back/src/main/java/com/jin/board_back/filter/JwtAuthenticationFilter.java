@@ -116,7 +116,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String parseBearerToken(HttpServletRequest request) {
     // 1. 쿠키에서 accessToken 확인
     Cookie[] cookies = request.getCookies();
-    System.out.println(Arrays.toString(cookies));
+    System.out.println("Arrays.toString(cookies): " + Arrays.toString(cookies));
     if (cookies != null) {
         for (Cookie cookie : cookies) {
             if ("accessToken".equals(cookie.getName())) {
