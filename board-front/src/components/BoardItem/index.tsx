@@ -1,10 +1,16 @@
 import React from 'react'
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import './style.css';
 import { BoardListItem } from 'types/interface';
 import { useNavigate } from 'react-router-dom';
 import defaultProfileImage from 'assets/image/default-profile-image.png';
 import { BOARD_DETAIL_PATH, BOARD_PATH } from 'constant';
 
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 interface Props {
     boardListItem: BoardListItem
 }
@@ -25,6 +31,11 @@ export default function BoardItem({ boardListItem }: Props) {
         navigate(BOARD_PATH() + '/' + BOARD_DETAIL_PATH(boardNumber));
     }
 
+    // writeDatetime을 한국 시간 (Asia/Seoul) 기준으로 포맷팅
+    const formattedWriteDatetime = writeDatetime 
+      ? dayjs.utc(writeDatetime).tz('Asia/Seoul').format('YYYY.MM.DD HH:mm')
+      : '';
+
     //  render: Board List Item 컴포넌트 랜더링
   return (
     <div className='board-list-item' onClick={onClickHandler}>
@@ -36,7 +47,7 @@ export default function BoardItem({ boardListItem }: Props) {
                 </div>
                 <div className='board-list-item-write-box'>
                     <div className='board-list-item-nickname'>{writerNickname}</div>
-                    <div className='board-list-item-write-datetime'>{writeDatetime}</div>
+                    <div className='board-list-item-write-datetime'>{formattedWriteDatetime}</div>
                 </div>
             </div>
             <div className='board-list-item-middle'>
