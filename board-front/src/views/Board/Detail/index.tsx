@@ -381,16 +381,21 @@ export default function BoardDetail() {
   }; 
 
   //  effect: 게시물 번호 path variable이 바뀔때 마다 게시물 조회수 증가
-  let effectFlag = true;
-  useEffect(() => {
-    if (!boardNumber) return;
-    if (effectFlag) {
-      effectFlag = false;
-      return ;
-    }
+  // let effectFlag = true;
+  // useEffect(() => {
+  //   if (!boardNumber) return;
+  //   if (effectFlag) {
+  //     effectFlag = false;
+  //     return ;
+  //   }
     
-    increseViewCountRequest(boardNumber).then(increseViewCountResponse);
-  }, [boardNumber])
+  //   increseViewCountRequest(boardNumber).then(increseViewCountResponse);
+  // }, [boardNumber])
+
+  useEffect(() => {
+  if (!boardNumber) return;
+  increseViewCountRequest(boardNumber).then(increseViewCountResponse);
+}, [boardNumber]);
 
   //  render: 게시물 상세 화면 컴포넌트 렌더링
   return (
