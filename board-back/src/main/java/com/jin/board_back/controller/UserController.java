@@ -23,7 +23,7 @@ import com.jin.board_back.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin(allowCredentials = "true")
+// @CrossOrigin(allowCredentials = "true")
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
