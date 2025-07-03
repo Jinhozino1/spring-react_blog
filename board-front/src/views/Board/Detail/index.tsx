@@ -63,7 +63,7 @@ export default function BoardDetail() {
       if (!board) return '';
       const date = dayjs.tz(board.writeDatetime, 'Asia/Seoul');
       
-      return date.format('YYYY. MM. DD ∙ HH:mm:ss');
+      return date.format('YYYY. MM. DD ∙ HH:mm');
     }
 
     // function: get board response 처리 함수

@@ -5,9 +5,17 @@ import { BoardListItem } from 'types/interface';
 import { useNavigate } from 'react-router-dom';
 import { BOARD_DETAIL_PATH, BOARD_PATH } from 'constant';
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 interface Props {
     top3ListItem: BoardListItem
 }
+
 
 //  component: Top 3 List Item 컴포넌트
 export default function Top3Item({ top3ListItem }: Props) {
@@ -25,6 +33,8 @@ export default function Top3Item({ top3ListItem }: Props) {
         navigate(BOARD_PATH() + '/' + BOARD_DETAIL_PATH(boardNumber));
     }
 
+    const formattedDatetime = dayjs(writeDatetime).tz("Asia/Seoul").format("YYYY-MM-DD HH:mm");
+
     //  render: Top 3 List Item 컴포넌트 랜더링
     return (
         <div className='top-3-list-item' style={{ backgroundImage: `url(${boardTitleImage})` }} onClick={onClickHandler}>
@@ -36,9 +46,7 @@ export default function Top3Item({ top3ListItem }: Props) {
                     </div>
                     <div className='top-3-list-item-write-box'>
                         <div className='top-3-list-item-nickname'>{writerNickname}</div>
-                        <div className='top-3-list-item-write-date'>{writeDatetime}</div>
-                        {/* <div className='top-3-list-item-nickname'>{'닉네임ghfhffhf'}</div>
-                        <div className='top-3-list-item-write-date'>{'2022. 05. 12'}</div> */}
+                        <div className='top-3-list-item-write-date'>{formattedDatetime}</div>
                     </div>
                 </div>
                 <div className='top-3-list-item-middle'>

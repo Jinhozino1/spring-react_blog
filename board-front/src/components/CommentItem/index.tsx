@@ -46,7 +46,7 @@ export default function CommentItem({ commentListItem }: Props) {
     const getWriteDatetimeFormat = () => {
         if (!commentListItem) return '';
         const date = dayjs.tz(commentListItem.writeDatetime, 'Asia/Seoul');
-        return date.format('YYYY. MM. DD ∙ HH:mm:ss');
+        return date.format('YYYY. MM. DD ∙ HH:mm');
       }
 
       
