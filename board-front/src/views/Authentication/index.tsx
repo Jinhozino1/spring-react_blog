@@ -44,24 +44,20 @@ export default function Authentication() {
     
     //  function: sign in response 처리 함수
     const signInResponse = (responseBody: SignInResponseDto | ResponseDto | null) => {
-      console.log("login 1");
       if (!responseBody) {
         alert('네트워크 이상입니다.');
         return;
       }
-      console.log("login 2");
       const { code } = responseBody;
       // if (code === 'VF') alert('모두 입력하세요.');
       if (code === 'DBE') alert('데이터베이스 오류입니다.');
       if (code === 'SF' || code === 'VF') setError(true);
       if (code !== 'SU') return;
-      console.log("login 3");
       const { token, expirationTime } = responseBody as SignInResponseDto;
       const now = new Date().getTime();
       const expires = new Date(now + expirationTime * 1000);
 
       setCookie('accessToken', token, { expires, path: MAIN_PATH() });
-      console.log("login 4");
       navigate(MAIN_PATH());
     }
 
@@ -228,6 +224,7 @@ export default function Authentication() {
     //  function: sign up response 처리 함수
     const signUpResponse = (responseBody: SignUpResponseDto | ResponseDto | null) => {
       if (!responseBody) {
+        console.log('responseBody is null or undefined:', responseBody);
         alert('네트워크 이상입니다.');
         return;
       }
