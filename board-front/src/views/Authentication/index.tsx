@@ -224,7 +224,6 @@ export default function Authentication() {
     //  function: sign up response 처리 함수
     const signUpResponse = (responseBody: SignUpResponseDto | ResponseDto | null) => {
       if (!responseBody) {
-        console.log('responseBody is null or undefined:', responseBody);
         alert('네트워크 이상입니다.');
         return;
       }

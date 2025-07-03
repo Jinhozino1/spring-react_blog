@@ -116,11 +116,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String parseBearerToken(HttpServletRequest request) {
     // 1. 쿠키에서 accessToken 확인
     Cookie[] cookies = request.getCookies();
-    System.out.println("Arrays.toString(cookies): " + Arrays.toString(cookies));
     if (cookies != null) {
         for (Cookie cookie : cookies) {
             if ("accessToken".equals(cookie.getName())) {
-                System.out.println("🟢 인증 방식: 쿠키(token) 사용");
                 return cookie.getValue();
             }
         }
@@ -128,7 +126,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // 2. Authorization 헤더에서 Bearer 토큰 찾기
     String authorizationHeader = request.getHeader("Authorization");
     if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
-        System.out.println("🟠 인증 방식: Authorization 헤더 사용");
         return authorizationHeader.substring(7); // "Bearer " 이후 토큰만 추출
     }
     

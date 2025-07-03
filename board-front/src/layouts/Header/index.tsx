@@ -140,8 +140,6 @@ export default function Header() {
         const onSignInButtonClickHandler = () => {
             navigate(AUTH_PATH());
         };
-
-        console.log("MyPageButton isLogin: ", isLogin);
         
         //  render: 로그아웃 버튼 컴포넌트 렌더링
         if(isLogin && userEmail && userEmail === loginUser?.email)

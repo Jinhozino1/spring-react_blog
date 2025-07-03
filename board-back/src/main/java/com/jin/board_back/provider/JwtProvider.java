@@ -60,7 +60,6 @@ public class JwtProvider {
                 .parseClaimsJws(jwt)
                 .getBody();
             String email = claims.getSubject();
-            System.out.println("✅ JWT 검증 성공: " + email);
             return email;
     
         } catch (io.jsonwebtoken.ExpiredJwtException e) {
