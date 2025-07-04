@@ -225,7 +225,7 @@ public class BoardServiceImplement implements BoardService{
         try{
             
             Date beforeWeek = Date.from(Instant.now().minus(7, ChronoUnit.DAYS));
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             String sevenDaysAgo = simpleDateFormat.format(beforeWeek);
 
             boardListViewEntities = boardListViewRepository.findTop3ByWriteDatetimeGreaterThanOrderByFavoriteCountDescCommentCountDescViewCountDesc(sevenDaysAgo);

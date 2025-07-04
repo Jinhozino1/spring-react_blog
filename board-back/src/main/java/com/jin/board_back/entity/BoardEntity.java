@@ -48,7 +48,7 @@ public class BoardEntity {
     public BoardEntity(PostBoardRequestDto dto, String email) {
         
         Date now = Date.from(Instant.now());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String writeDatetime = simpleDateFormat.format(now);
 
         this.title = dto.getTitle();
