@@ -2,6 +2,9 @@ front : react 18.3.0
 
 back : spring boot 3.4.4
 
+DB : MySQL 8.4
+
+URL : https://jinhozinoboard.click/
 
 -------------------------------------------------------------------------------
 
