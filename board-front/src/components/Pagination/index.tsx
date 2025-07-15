@@ -35,7 +35,7 @@ export default function Pagination(props: Props) {
         setCurrentPage(currentSection * 10 + 1);
         setCurrentSection(currentSection + 1);
     }
-
+    console.log('📌 viewPageList:', viewPageList);
     //  render: 페이지네이션 컴포넌트 렌더링
     return (
         <div id='pagination-wrapper'>
