@@ -26,7 +26,8 @@ export default function Pagination(props: Props) {
     //event handler: 이전 변수 클릭 이벤트 처리
     const onPreviousClickHandler = () => {
         if (currentSection === 1) return;
-        setCurrentPage((currentSection - 1) * 10);
+        const newPage = Math.max(1, (currentSection - 1) * 10);
+        setCurrentPage(newPage);
         setCurrentSection(currentSection - 1);
     }
     //event handler: 이전 변수 클릭 이벤트 처리
