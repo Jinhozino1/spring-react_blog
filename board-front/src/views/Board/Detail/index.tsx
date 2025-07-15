@@ -183,7 +183,14 @@ export default function BoardDetail() {
 
     //  state: 페이지네이션 관련 상태
     const { 
-      currentPage, setCurrentPage, currentSection, setCurrentSection, viewList, viewPageList, totalSection, setTotalList
+      currentPage, 
+      setCurrentPage, 
+      currentSection, 
+      setCurrentSection, 
+      viewList, 
+      viewPageList, 
+      totalSection, 
+      setTotalList
      } = usePagination<CommentListItem>(3);
 
     //  state: 좋아요 리스트 상태
